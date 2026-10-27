@@ -54,15 +54,15 @@ One row per doink.
 | `kicking_team` | character | Team of the kicker; key into `teams$abbreviation`. |
 | `kicker_id` | integer | Key into `kickers$kicker_id`. |
 | `kicker` | character | Kicker's name as recorded. |
-| `play_type` | character | Type of play; see the allowed values below. |
+| `play_type` | character | Type of kick: `"FG"` (field goal) or `"XP"` (extra point). |
 | `distance` | integer | Distance of the kick, in yards. |
-| `quarter` | character | Quarter of the kick: `Q1`, `Q2`, `Q3`, `Q4` or an overtime label (`OT` or similar). The labels actually present are listed under the allowed values below. |
+| `quarter` | character | Quarter of the kick: `"1"`, `"2"`, `"3"`, `"4"` or `"OT"`. |
 | `game_time` | character | Game clock reading at the time of the kick. |
-| `outcome` | character | Outcome of the kick; see the allowed values below. |
+| `outcome` | character | Result of the kick: `"Good"` or `"No Good"`. |
 | `stadium` | character | Stadium where the game was played. |
 | `gsis_id` | character | GSIS player id of the kicker; join key to `nflreadr::load_players()`. |
 | `kicking_franchise` | character | Franchise of the kicking team, as released. |
-| `stakes` | character | Stakes label for the kick; see the allowed values below. |
+| `stakes` | character | Stakes label for the kick: `"high-impact"`, `"losing"` or `"winning"`. |
 | `is_official` | logical | Always `TRUE` in released data. |
 
 ## kickers
