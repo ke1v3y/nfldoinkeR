@@ -110,6 +110,13 @@ kickers |>
 ```
 
 A kicker with no `gsis_id` could not be matched to an nflverse player, and
-the join leaves the `nflverse_*` columns `NA` for that row. The data
-dictionary vignette lists the other kicker columns, including any that record
-why a kicker is unmatched.
+the join leaves the `nflverse_*` columns `NA` for that row. The kickers table
+carries a `gsis_status_note` column alongside the id; counting it against
+whether the id is present shows which notes go with which kickers:
+
+```{r status-note}
+kickers |>
+  count(gsis_status_note, has_gsis_id = !is.na(gsis_id))
+```
+
+The data dictionary vignette lists the allowed values of `gsis_status_note`.
