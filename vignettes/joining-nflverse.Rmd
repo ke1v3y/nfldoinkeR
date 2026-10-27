@@ -1,0 +1,115 @@
+---
+title: "Joining doinks to nflverse data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Joining doinks to nflverse data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = identical(Sys.getenv("NOT_CRAN"), "true") &&
+    requireNamespace("dplyr", quietly = TRUE)
+)
+```
+
+```{r setup}
+library(nfldoinkeR)
+library(dplyr)
+```
+
+The doinks table carries `nflverse_game_id`, and the kickers table carries
+`gsis_id`. Those are the keys for joining to nflverse's schedule and player
+tables. The nflverse tables come from nflreadr, which this package already
+depends on.
+
+## Doinks to games
+
+```{r games}
+doinks <- load_doinks()
+
+schedules <- nflreadr::load_schedules() |>
+  select(
+    game_id,
+    nflverse_game_type = game_type,
+    nflverse_gameday = gameday
+  )
+
+joined <- doinks |>
+  left_join(schedules, by = c(nflverse_game_id = "game_id"))
+
+joined |>
+  select(doink_id, season, nflverse_game_id, nflverse_game_type, nflverse_gameday) |>
+  head()
+```
+
+Selecting and renaming the schedule columns before the join avoids name
+clashes: both tables have columns such as `season`, `week` and the scores.
+
+A left join keeps one row per doink only if the key is unique on the
+nflverse side, which it is for `game_id`:
+
+```{r rows}
+nrow(joined) == nrow(doinks)
+```
+
+### Why `nflverse_game_id` is sometimes `NA`
+
+```{r na-games}
+doinks |>
+  summarise(
+    doinks = n(),
+    keyed = sum(!is.na(nflverse_game_id)),
+    before_1999 = sum(season < 1999),
+    unkeyed_1999_on = sum(is.na(nflverse_game_id) & season >= 1999)
+  )
+```
+
+There are two different reasons for an `NA`:
+
+* **Before the 1999 season, always.** nflverse's schedule data has no rows
+  before 1999, so there is nothing to look up. The package does not construct
+  an id for those games, so these rows stay `NA` by design.
+* **From 1999 on, a game that has not been matched yet.** The id is adopted
+  from nflverse's own schedule file when OTU games are matched to it, not
+  computed. `doink_release_info()$nflverse_join` gives the current counts of
+  keyed and unkeyed doinks from 1999 on.
+
+The data pipeline checks that every non-`NA` id exists in
+`nflreadr::load_schedules()`, so a non-`NA` id that fails to join is worth
+reporting.
+
+## Kickers to players
+
+```{r players}
+kickers <- load_doink_kickers()
+
+players <- nflreadr::load_players() |>
+  select(
+    gsis_id,
+    nflverse_name = display_name,
+    nflverse_position = position
+  )
+
+kickers_joined <- kickers |>
+  left_join(players, by = "gsis_id")
+
+nrow(kickers_joined) == nrow(kickers)
+```
+
+```{r na-players}
+kickers |>
+  summarise(
+    kickers = n(),
+    with_gsis_id = sum(!is.na(gsis_id)),
+    without_gsis_id = sum(is.na(gsis_id))
+  )
+```
+
+A kicker with no `gsis_id` could not be matched to an nflverse player, and
+the join leaves the `nflverse_*` columns `NA` for that row. The data
+dictionary vignette lists the other kicker columns, including any that record
+why a kicker is unmatched.

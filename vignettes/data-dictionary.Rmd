@@ -1,0 +1,116 @@
+---
+title: "Data dictionary"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Data dictionary}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = identical(Sys.getenv("NOT_CRAN"), "true")
+)
+```
+
+```{r setup}
+library(nfldoinkeR)
+```
+
+This dictionary was written against `format_revision` 5 of the data release.
+Column types are exactly those written by the data pipeline; the package does
+not re-coerce them. The released set is the keyed export's full header as
+served, so the live column listings below are the authority for what exists.
+The hand-written tables cover the columns whose type and meaning are
+documented.
+
+```{r revision}
+info <- doink_release_info()
+info$format_revision
+```
+
+If that number is not 5, the tables below may be out of date.
+
+## Scope of the released data
+
+Preseason games and the Hall of Fame game are excluded. Rows flagged
+`is_official == FALSE` are dropped before release, so `is_official` is `TRUE`
+on every released row. Rows are ordered by `game_date`, then `doink_id`.
+
+## doinks
+
+| Column | Type | Meaning |
+|---|---|---|
+| `doink_id` | integer | Identifier of the doink record. |
+| `game_date` | Date | Date of the game. |
+| `season` | integer | Season of the game. |
+| `week` | character | `"1"` to `"18"`, `"Wild Card"`, `"Divisional"`, `"Conference"` or `"Super Bowl"`. |
+| `quarter` | character | Quarter of the kick. |
+| `game_time` | character | Game clock time of the kick. |
+| `distance` | integer | Distance of the kick. |
+| `away_score`, `home_score` | integer | Game scores. |
+| `kicker_id` | integer | Key into `kickers$kicker_id`. |
+| `kicking_team` | character | Team abbreviation; key into `teams$abbreviation`. |
+| `kicking_franchise` | character | Franchise of the kicking team, as released. |
+| `gsis_id` | character | GSIS player id of the kicker; join key to `nflreadr::load_players()`. |
+| `stakes` | character | Stakes label for the kick. |
+| `is_official` | logical | Always `TRUE` in released data. |
+| `nflverse_game_id` | character | nflverse `game_id`. `NA` for every game before 1999 (no nflverse schedule rows exist) and for any 1999-on game not yet matched. |
+| `play_type`, `outcome` | character | See the allowed values below. |
+
+## kickers
+
+| Column | Type | Meaning |
+|---|---|---|
+| `kicker_id` | integer | Identifier of the kicker; key from `doinks$kicker_id`. |
+| `gsis_id` | character | GSIS player id; join key to `nflreadr::load_players()`. `NA` when the kicker has no nflverse match. |
+| `is_position_kicker` | logical | Flag on the kicker record. |
+
+## teams
+
+| Column | Type | Meaning |
+|---|---|---|
+| `abbreviation` | character | Team abbreviation; target of `doinks$kicking_team`. |
+| `franchise_id` | integer | Franchise identifier. |
+| `first_year`, `last_year` | integer | First and last season for the team entry. |
+
+## Columns in the current release
+
+```{r columns}
+doinks <- load_doinks()
+kickers <- load_doink_kickers()
+teams <- load_doink_teams()
+
+describe_columns <- function(x) {
+  data.frame(
+    column = names(x),
+    type = vapply(x, function(col) class(col)[1], character(1)),
+    row.names = NULL
+  )
+}
+```
+
+```{r doinks-columns}
+describe_columns(doinks)
+```
+
+```{r kickers-columns}
+describe_columns(kickers)
+```
+
+```{r teams-columns}
+describe_columns(teams)
+```
+
+## Allowed values
+
+These are read from the current release when the vignette is built.
+
+```{r allowed}
+for (col in intersect(c("week", "play_type", "outcome", "quarter", "stakes"), names(doinks))) {
+  cat("\n", col, "\n", sep = "")
+  print(table(doinks[[col]], useNA = "ifany"))
+}
+```

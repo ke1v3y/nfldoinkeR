@@ -1,0 +1,72 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file. -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+info <- nfldoinkeR::doink_release_info()
+```
+
+# nfldoinkeR
+
+nfldoinkeR loads Off the Upright's NFL doink data (kicks that hit a goalpost or crossbar) into R: doinks, kickers and teams through load_doinks(), load_doink_kickers() and load_doink_teams(), with doink_release_info() for release details. It pairs with nflreadr through nflverse game ids (1999 onward) and gsis_id. The data comes from Off the Upright (offtheupright.com), and the package is available from GitHub.
+
+The package contains no data and never contacts offtheupright.com; it reads the releases of [nfldoinkeR-data](https://github.com/ke1v3y/nfldoinkeR-data).
+
+## Installation
+
+```r
+# install.packages("pak")
+pak::pak("ke1v3y/nfldoinkeR")
+```
+
+## Example
+
+```r
+library(nfldoinkeR)
+doinks <- load_doinks(2024)
+doinks
+```
+
+```r
+doink_release_info()$built_at
+```
+
+Kicker and team profiles are `load_doink_kickers()` and `load_doink_teams()`.
+The `doink` in those names avoids masking `nflreadr::load_teams()`.
+
+## Coverage
+
+Doinks from 1974; joinable to nflverse from 1999. Games before the 1999 season
+have no `nflverse_game_id`, because nflverse's schedule data has no rows there.
+
+The current release is data version `r info$data_version`, built
+`r info$built_at`. It holds `r info$rows$doinks` doinks from seasons
+`r info$seasons$min` to `r info$seasons$max`, of which
+`r info$nflverse_join$doinks_keyed` carry an `nflverse_game_id`.
+`r info$nflverse_join$doinks_unkeyed_1999_on` doinks from 1999 on do not yet
+have one. These counts are read from the release manifest each time this file
+is knitted.
+
+## Attribution and citation
+
+The data are released under CC-BY-4.0. Please credit them as:
+
+> Data from Off the Upright, offtheupright.com
+
+To cite a specific cut of the data, cite the dated release tag
+(`vYYYY.MM.DD`) of the release you used, for example
+`v2026.10.27` of
+[nfldoinkeR-data](https://github.com/ke1v3y/nfldoinkeR-data/releases), not
+`latest`, which moves. Run `citation("nfldoinkeR")` for the package citation.
+
+## Licence
+
+Package code: MIT. Data: CC-BY-4.0.

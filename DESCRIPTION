@@ -1,0 +1,33 @@
+Package: nfldoinkeR
+Title: Load NFL Doink Data from Off the Upright
+Version: 0.1.0
+Authors@R:
+    person("Mathew", "McKelvey", , "contact@offtheupright.com", role = c("aut", "cre"))
+Description: Loads the 'Off the Upright' database of NFL doinks (kicks that
+    hit a goalpost or crossbar), together with kicker and team profile
+    tables, from the data releases published at
+    <https://github.com/ke1v3y/nfldoinkeR-data>. Tables are read through
+    'nflreadr' and carry 'nflverse' game ids and 'GSIS' player ids so that
+    they can be joined to 'nflverse' schedules and players. The data are
+    licensed CC-BY-4.0; the package code is MIT.
+License: MIT + file LICENSE
+URL: https://github.com/ke1v3y/nfldoinkeR
+BugReports: https://github.com/ke1v3y/nfldoinkeR/issues
+Depends:
+    R (>= 4.1.0)
+Imports:
+    jsonlite,
+    nflreadr (>= 1.4.0),
+    rlang (>= 1.0.0)
+Suggests:
+    arrow,
+    dplyr,
+    knitr,
+    rmarkdown,
+    testthat (>= 3.2.0),
+    withr
+VignetteBuilder: knitr
+Config/testthat/edition: 3
+Encoding: UTF-8
+Language: en-US
+Roxygen: list(markdown = TRUE)

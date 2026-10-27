@@ -1,0 +1,17 @@
+bibentry(
+  bibtype = "Manual",
+  title = "nfldoinkeR: Load NFL Doink Data from Off the Upright",
+  author = person("Mathew", "McKelvey"),
+  year = "2026",
+  note = paste("R package version", meta$Version),
+  url = "https://github.com/ke1v3y/nfldoinkeR"
+)
+
+bibentry(
+  bibtype = "Misc",
+  title = "Off the Upright NFL doink data (nfldoinkeR-data)",
+  author = person("Off the Upright"),
+  year = "2026",
+  note = "Cite the dated release tag (vYYYY.MM.DD) of the release you used. CC-BY-4.0.",
+  url = "https://github.com/ke1v3y/nfldoinkeR-data/releases"
+)
