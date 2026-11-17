@@ -43,9 +43,9 @@ Doinks from 1974; joinable to nflverse from 1999. Games before the 1999
 season have no `nflverse_game_id`, because nflverse’s schedule data has
 no rows there.
 
-The current release is data version 20261027T064147Z-10, built
-2026-10-27T13:03:37Z. It holds 892 doinks from seasons 1974 to 2026, of
-which 806 carry an `nflverse_game_id`. 0 doinks from 1999 on do not yet
+The current release is data version 20261117T131618Z-14, built
+2026-11-17T18:41:09Z. It holds 918 doinks from seasons 1974 to 2026, of
+which 812 carry an `nflverse_game_id`. 0 doinks from 1999 on do not yet
 have one. These counts are read from the release manifest each time this
 file is knitted.
 

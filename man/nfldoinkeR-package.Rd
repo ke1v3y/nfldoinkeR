@@ -39,11 +39,11 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Mathew McKelvey \email{contact@offtheupright.com}
+\strong{Maintainer}: Mathew McKelvey \email{contact@offtheupright.com} [copyright holder]
 
 Authors:
 \itemize{
-  \item Mathew McKelvey \email{contact@offtheupright.com}
+  \item Mathew McKelvey \email{contact@offtheupright.com} [copyright holder]
 }
 
 }
