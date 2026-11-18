@@ -50,9 +50,9 @@ no rows there.
 
 The current release is data version 20261117T131618Z-14, built
 2026-11-17T18:41:09Z. It holds 918 doinks from seasons 1974 to 2026, of
-which 812 carry an `nflverse_game_id`. 0 doinks from 1999 on do not yet
-have one. These counts are read from the release manifest each time this
-file is knitted.
+which 812 carry an `nflverse_game_id`. Every doink from 1999 on carries
+an `nflverse_game_id`. These counts are read from the release manifest
+each time this file is knitted.
 
 ## Attribution and citation
 

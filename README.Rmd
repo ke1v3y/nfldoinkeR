@@ -12,9 +12,19 @@ knitr::opts_chunk$set(
   out.width = "100%"
 )
 info <- nfldoinkeR::doink_release_info()
+join <- info$nflverse_join
+unkeyed_sentence <- if (join$doinks_unkeyed_1999_on == 0) {
+  "Every doink from 1999 on carries an `nflverse_game_id`."
+} else {
+  sprintf(
+    "%s doinks from 1999 on do not yet have one.",
+    format(join$doinks_unkeyed_1999_on, big.mark = ",")
+  )
+}
 ```
 
 # nfldoinkeR
+
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/ke1v3y/nfldoinkeR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ke1v3y/nfldoinkeR/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
@@ -53,10 +63,9 @@ have no `nflverse_game_id`, because nflverse's schedule data has no rows there.
 The current release is data version `r info$data_version`, built
 `r info$built_at`. It holds `r info$rows$doinks` doinks from seasons
 `r info$seasons$min` to `r info$seasons$max`, of which
-`r info$nflverse_join$doinks_keyed` carry an `nflverse_game_id`.
-`r info$nflverse_join$doinks_unkeyed_1999_on` doinks from 1999 on do not yet
-have one. These counts are read from the release manifest each time this file
-is knitted.
+`r join$doinks_keyed` carry an `nflverse_game_id`.
+`r unkeyed_sentence` These counts are read from the release manifest each time
+this file is knitted.
 
 ## Attribution and citation
 
