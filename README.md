@@ -3,6 +3,11 @@
 
 # nfldoinkeR
 
+<!-- badges: start -->
+
+[![R-CMD-check](https://github.com/ke1v3y/nfldoinkeR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ke1v3y/nfldoinkeR/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
+
 nfldoinkeR loads Off the Upright’s NFL doink data (kicks that hit a
 goalpost or crossbar) into R: doinks, kickers and teams through
 load_doinks(), load_doink_kickers() and load_doink_teams(), with

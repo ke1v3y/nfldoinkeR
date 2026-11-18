@@ -15,6 +15,9 @@ info <- nfldoinkeR::doink_release_info()
 ```
 
 # nfldoinkeR
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/ke1v3y/nfldoinkeR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ke1v3y/nfldoinkeR/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
 
 nfldoinkeR loads Off the Upright's NFL doink data (kicks that hit a goalpost or crossbar) into R: doinks, kickers and teams through load_doinks(), load_doink_kickers() and load_doink_teams(), with doink_release_info() for release details. It pairs with nflreadr through nflverse game ids (1999 onward) and gsis_id. The data comes from Off the Upright (offtheupright.com), and the package is available from GitHub.
 
